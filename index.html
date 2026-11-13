@@ -1,101 +1,147 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Objectif Primes — Cumulez jusqu'à 725 € de primes bancaires + Bonus Cash</title>
+  <style>
+    :root {
+      --primary: #0f172a;
+      --accent: #10b981;
+      --accent-dark: #059669;
+      --blue: #2563eb;
+      --bg: #f8fafc;
+      --card: #ffffff;
+      --text: #1e293b;
+      --muted: #64748b;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; }
+    html { scroll-behavior: smooth; }
+    body { background: var(--bg); color: var(--text); line-height: 1.6; }
+    header { background: var(--primary); color: #fff; padding: 1.2rem 1.5rem; position: sticky; top: 0; z-index: 100; display: flex; justify-content: space-between; align-items: center; }
+    .logo { font-weight: 800; font-size: 1.25rem; letter-spacing: -0.5px; }
+    .logo span { color: var(--accent); }
+    .nav-btn { background: var(--accent); color: #fff; text-decoration: none; padding: 0.55rem 1rem; border-radius: 8px; font-weight: 700; font-size: 0.9rem; }
+    .hero { background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%); color: #fff; text-align: center; padding: 3.5rem 1.5rem; }
+    .badge { display: inline-block; background: rgba(16, 185, 129, 0.2); color: #34d399; padding: 0.35rem 0.9rem; border-radius: 999px; font-size: 0.85rem; font-weight: 700; margin-bottom: 1rem; }
+    .hero h1 { font-size: 2.2rem; max-width: 780px; margin: 0 auto 1rem; line-height: 1.2; }
+    .hero p { color: #cbd5e1; max-width: 640px; margin: 0 auto 2rem; font-size: 1.05rem; }
+    .container { max-width: 1050px; margin: 0 auto; padding: 2.5rem 1.25rem; }
+    .sim-box { background: var(--card); border-radius: 16px; padding: 2rem; box-shadow: 0 10px 25px rgba(0,0,0,0.06); margin-top: -3rem; border: 1px solid #e2e8f0; }
+    .sim-title { font-size: 1.3rem; font-weight: 700; margin-bottom: 0.5rem; text-align: center; }
+    .sim-sub { color: var(--muted); text-align: center; font-size: 0.95rem; margin-bottom: 1.5rem; }
+    .sim-options { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 1rem; margin-bottom: 1.5rem; }
+    .sim-item { border: 2px solid #e2e8f0; border-radius: 12px; padding: 1rem; cursor: pointer; display: flex; align-items: center; justify-content: space-between; transition: 0.2s; }
+    .sim-item.active { border-color: var(--accent); background: #ecfdf5; }
+    .sim-item input { width: 20px; height: 20px; accent-color: var(--accent); cursor: pointer; }
+    .sim-result { background: var(--primary); color: #fff; border-radius: 12px; padding: 1.25rem; text-align: center; display: flex; flex-wrap: wrap; justify-content: space-around; align-items: center; gap: 1rem; }
+    .sim-amount { font-size: 2rem; font-weight: 800; color: var(--accent); }
+    .section-title { text-align: center; font-size: 1.75rem; font-weight: 800; margin: 2.5rem 0 0.5rem; }
+    .section-sub { text-align: center; color: var(--muted); margin-bottom: 2rem; }
+    .cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 1.5rem; }
+    .card { background: var(--card); border-radius: 16px; padding: 1.75rem; box-shadow: 0 4px 15px rgba(0,0,0,0.05); border: 1px solid #e2e8f0; display: flex; flex-direction: column; justify-content: space-between; position: relative; }
+    .tag { position: absolute; top: -12px; right: 20px; background: var(--blue); color: #fff; font-size: 0.75rem; font-weight: 700; padding: 0.25rem 0.75rem; border-radius: 999px; }
+    .bank-name { font-size: 1.4rem; font-weight: 800; margin-bottom: 0.5rem; }
+    .reward-box { background: #f1f5f9; border-radius: 10px; padding: 0.9rem; margin: 1rem 0; }
+    .reward-main { font-size: 1.1rem; font-weight: 700; }
+    .reward-bonus { color: var(--accent-dark); font-weight: 800; font-size: 1.05rem; margin-top: 0.25rem; }
+    .steps-list { list-style: none; margin: 1rem 0 1.5rem; font-size: 0.92rem; color: #334155; }
+    .steps-list li { margin-bottom: 0.5rem; padding-left: 1.4rem; position: relative; }
+    .steps-list li::before { content: "✓"; color: var(--accent); font-weight: bold; position: absolute; left: 0; }
+    .cta-btn { display: block; text-align: center; background: var(--accent); color: #fff; text-decoration: none; font-weight: 700; padding: 0.9rem; border-radius: 10px; transition: 0.2s; }
+    .cta-btn:hover { background: var(--accent-dark); }
+    .process { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 1.5rem; margin-top: 1.5rem; }
+    .step-card { background: var(--card); padding: 1.5rem; border-radius: 14px; border: 1px solid #e2e8f0; text-align: center; }
+    .step-num { width: 38px; height: 38px; background: var(--primary); color: #fff; border-radius: 50%; display: inline-flex; align-items: center; justify-content: center; font-weight: 800; margin-bottom: 0.75rem; }
+    
+    /* Formulaire */
+    .form-box { max-width: 600px; margin: 2rem auto 0; background: var(--card); padding: 2rem; border-radius: 16px; border: 1px solid #e2e8f0; box-shadow: 0 6px 20px rgba(0,0,0,0.05); }
+    .form-group { margin-bottom: 1.1rem; }
+    .form-group label { display: block; font-weight: 700; font-size: 0.92rem; margin-bottom: 0.35rem; }
+    .form-group input, .form-group select, .form-group textarea { width: 100%; padding: 0.8rem; border: 1px solid #cbd5e1; border-radius: 10px; font-size: 1rem; background: #f8fafc; }
+    .form-group input:focus, .form-group select:focus, .form-group textarea:focus { outline: none; border-color: var(--accent); background: #fff; }
+    .submit-btn { width: 100%; background: var(--accent); color: #fff; border: none; padding: 1rem; border-radius: 10px; font-size: 1.05rem; font-weight: 800; cursor: pointer; }
+    .submit-btn:hover { background: var(--accent-dark); }
+    .alt-mail { text-align: center; margin-top: 1rem; font-size: 0.88rem; color: var(--muted); }
 
-    </ul>
+    .faq-item { background: var(--card); border: 1px solid #e2e8f0; border-radius: 10px; padding: 1.1rem 1.25rem; margin-bottom: 0.75rem; }
+    .faq-q { font-weight: 700; margin-bottom: 0.35rem; }
+    .faq-a { color: var(--muted); font-size: 0.95rem; }
+    footer { background: var(--primary); color: #94a3b8; text-align: center; padding: 2rem 1rem; font-size: 0.85rem; margin-top: 3rem; }
+  </style>
+</head>
+<body>
+
+<header>
+  <div class="logo">Objectif<span>Primes</span></div>
+  <a href="#reclamer" class="nav-btn">Réclamer mon bonus</a>
+</header>
+
+<section class="hero">
+  <div class="badge">🔥 Offres vérifiées & Bonus Cash Partagé</div>
+  <h1>Ouvrez un compte gratuit et empochez jusqu'à 725 € cumulés</h1>
+  <p>Cumulez les primes de bienvenue officielles des meilleures banques en ligne + jusqu'à 50 % de ma prime parrain reversés instantanément par virement ou Wero.</p>
+</section>
+
+<div class="container">
+  <div class="sim-box">
+    <div class="sim-title">🧮 Calculez vos gains potentiels en 5 secondes</div>
+    <div class="sim-sub">Cochez les banques où vous n'êtes pas encore client :</div>
+    <div class="sim-options">
+      <label class="sim-item active">
+        <div><strong>BoursoBank</strong><br><small>Jusqu'à 260 € + 45 € bonus</small></div>
+        <input type="checkbox" checked data-bank="260" data-bonus="45" onchange="calc()">
+      </label>
+      <label class="sim-item active">
+        <div><strong>Hello bank!</strong><br><small>Jusqu'à 330 € + 50 € bonus</small></div>
+        <input type="checkbox" checked data-bank="330" data-bonus="50" onchange="calc()">
+      </label>
+      <label class="sim-item active">
+        <div><strong>Revolut</strong><br><small>0 € banque + 40 € bonus</small></div>
+        <input type="checkbox" checked data-bank="0" data-bonus="40" onchange="calc()">
+      </label>
     </div>
-    <a href="https://www.revolut.com/" target="_blank" rel="noopener" class="cta-btn">Découvrir Revolut →</a>
-  </div>
-  </div>
-
-  <section id="reclamer">
-    <h2 class="section-title">Demander ma prime</h2>
-    <p class="section-sub">
-      Vous avez ouvert un compte grâce à un de nos liens ?
-      Envoyez-nous votre demande.
-    </p>
-
-    <div class="step-card" style="max-width:600px; margin:0 auto;">
-      <form id="prime-form">
-        <p style="margin-bottom:12px; text-align:left;">
-          <label for="bank"><strong>Quelle banque avez-vous choisie ?</strong></label>
-          <select id="bank" required style="width:100%; padding:12px; margin-top:6px; border:1px solid #cbd5e1; border-radius:8px;">
-            <option value="">Choisissez votre banque</option>
-            <option value="BoursoBank">BoursoBank</option>
-            <option value="Hello bank!">Hello bank!</option>
-            <option value="Revolut">Revolut</option>
-          </select>
-        </p>
-
-        <p style="margin-bottom:12px; text-align:left;">
-          <label for="customer-name"><strong>Votre prénom (facultatif)</strong></label>
-          <input id="customer-name" type="text" placeholder="Votre prénom"
-            style="width:100%; padding:12px; margin-top:6px; border:1px solid #cbd5e1; border-radius:8px;">
-        </p>
-
-        <button type="submit" class="cta-btn" style="width:100%; border:0; cursor:pointer; font-size:1rem;">
-          Envoyer ma demande de prime
-        </button>
-      </form>
-
-      <p style="margin-top:18px;">
-        Vous pouvez aussi nous écrire directement :
-        <a class="mail-link" href="mailto:primeobjectif579@gmail.com">primeobjectif579@gmail.com</a>
-      </p>
-
-      <p style="font-size:0.82rem; color:var(--muted); margin-top:12px;">
-        Le bouton prépare un e-mail que vous devrez vérifier et envoyer.
-        Le versement du bonus dépend de votre éligibilité et des conditions de l'offre.
-        Ne transmettez jamais vos identifiants bancaires, mots de passe ou codes de sécurité.
-      </p>
+    <div class="sim-result">
+      <div>Primes banques : <strong id="res-bank">590 €</strong></div>
+      <div>Mon bonus cash : <strong id="res-bonus">+ 135 €</strong></div>
+      <div>Total estimé : <div class="sim-amount" id="res-total">725 €</div></div>
     </div>
-  </section>
-</div>
+  </div>
 
-<footer>
-  <p>© Objectif Primes — Informations et offres de parrainage.</p>
-</footer>
+  <h2 class="section-title">Les meilleures offres du moment</h2>
+  <p class="section-sub">Cliquez sur l'offre souhaitée pour utiliser mon lien parrain et débloquer votre bonus.</p>
 
-<script>
-  function calc() {
-    let bankTotal = 0;
-    let bonusTotal = 0;
+  <div class="cards">
+    <div class="card">
+      <span class="tag">Le plus populaire</span>
+      <div>
+        <div class="bank-name">BoursoBank</div>
+        <p style="color:var(--muted); font-size:0.9rem;">Carte Welcome ou Ultim gratuite, zéro frais à l'étranger.</p>
+        <div class="reward-box">
+          <div class="reward-main">Banque : Jusqu'à 260 € offerts</div>
+          <div class="reward-bonus">+ 45 € reversés par moi (virement/Wero)</div>
+        </div>
+        <ul class="steps-list">
+          <li>20 € dès l'ouverture effective du compte</li>
+          <li>Jusqu'à 80 € selon le 1er versement (sous 30j)</li>
+          <li>Jusqu'à 80 € pour l'usage carte sur 3 mois</li>
+          <li>+ 80 € avec la mobilité gratuite EasyMove</li>
+        </ul>
+      </div>
+      <a href="https://bour.so" target="_blank" rel="noopener" class="cta-btn">Profiter de l'offre BoursoBank →</a>
+    </div>
 
-    document.querySelectorAll('.sim-item').forEach(function(item) {
-      const checkbox = item.querySelector('input');
-      item.classList.toggle('active', checkbox.checked);
-
-      if (checkbox.checked) {
-        bankTotal += Number(checkbox.dataset.bank);
-        bonusTotal += Number(checkbox.dataset.bonus);
-      }
-    });
-
-    document.getElementById('res-bank').textContent = bankTotal + ' €';
-    document.getElementById('res-bonus').textContent = '+ ' + bonusTotal + ' €';
-    document.getElementById('res-total').textContent = (bankTotal + bonusTotal) + ' €';
-  }
-
-  document.getElementById('prime-form').addEventListener('submit', function(event) {
-    event.preventDefault();
-
-    const bank = document.getElementById('bank').value;
-    const name = document.getElementById('customer-name').value.trim();
-
-    const subject = 'Demande de prime Objectif Primes';
-    const body =
-      'Bonjour,\n\n' +
-      'Je viens d’ouvrir un compte chez ' + bank +
-      ' grâce à votre lien de parrainage et je souhaite demander le bonus annoncé.\n\n' +
-      (name ? 'Mon prénom : ' + name + '\n\n' : '') +
-      'Merci de m’indiquer les modalités pour recevoir le bonus, sous réserve de mon éligibilité.\n\n' +
-      'Cordialement.';
-
-    window.location.href =
-      'mailto:primeobjectif579@gmail.com' +
-      '?subject=' + encodeURIComponent(subject) +
-      '&body=' + encodeURIComponent(body);
-  });
-
-  calc();
-</script>
-
-</body>
-</html>
+    <div class="card">
+      <span class="tag" style="background:#059669;">Prime max</span>
+      <div>
+        <div class="bank-name">Hello bank!</div>
+        <p style="color:var(--muted); font-size:0.9rem;">La banque en ligne de BNP Paribas avec dépôt en agence.</p>
+        <div class="reward-box">
+          <div class="reward-main">Banque : Jusqu'à 330 € d'avantages</div>
+          <div class="reward-bonus">+ 50 € reversés par moi (virement/Wero)</div>
+        </div>
+        <ul class="steps-list">
+          <li>80 € versés sous 20 jours après ouverture</li>
+          <li>+ 50 € au 13e mois avec l'offre Hello Prime</li>
+          <li>+ 200 € en bons d'achat via Hello Start+</li>
+          <li>Carte Hello One gratuite dès 1 paiement/mois</li>
